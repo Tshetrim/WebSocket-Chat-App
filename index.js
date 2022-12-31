@@ -1,10 +1,12 @@
 const express = require('express');
 const sassMiddleware = require('node-sass-middleware');
 const WebSocketServer = require('./websocket-chat-server');
+const dotenv = require("dotenv");
+
 
 const app = express();
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(sassMiddleware({
   src: 'public',
