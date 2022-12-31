@@ -27,6 +27,8 @@ const server = net.createServer((socket) => {
 		console.log(`client ${socket.remotePort} disconnected through end`);
 		clients.splice(clients.indexOf(socket), 1);
 	});
+
+
 });
 
 server.on("error", (error) => {

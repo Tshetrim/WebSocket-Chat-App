@@ -42,7 +42,7 @@ function createConnection() {
 
 	socket.onopen = function (event) {
 		console.log("Connected to server");
-		socket.send(`/announce:${username}`);
+		socket.send(`[${username}]:/announce`);
 	};
 
 	socket.onmessage = async function (event) {
