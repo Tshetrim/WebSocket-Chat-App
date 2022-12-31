@@ -1,4 +1,5 @@
-const socket = new WebSocket("wss://websocket-chat-app-production.up.railway.app:8125");
+//replace localhost with port porwarded ip if you want to run this online, make sure the port number is the external port chosen
+const socket = new WebSocket("ws://localhost:8125");
 
 let sendChannel,
 	receiveChannel,
@@ -8,7 +9,7 @@ let sendChannel,
 
 // Get User Name
 let username = prompt("Please enter your username:");
-if (username != undefined) {
+if(username!=undefined){
 	const welcomeMessage = document.getElementById("welcome-message");
 	welcomeMessage.innerText += ` ${username}`;
 }
@@ -25,7 +26,7 @@ chatWindow.onsubmit = function (e) {
 	return false;
 };
 
-function initializeBlobDecoder() {
+function initializeBlobDecoder(){
 	const reader = new FileReader();
 	reader.addEventListener("loadend", () => {
 		const message = reader.result;
@@ -34,7 +35,7 @@ function initializeBlobDecoder() {
 		handleMessageRecieved(message);
 	});
 	return reader;
-}
+};
 
 function createConnection() {
 	const reader = initializeBlobDecoder();
@@ -45,8 +46,10 @@ function createConnection() {
 	};
 
 	socket.onmessage = async function (event) {
-		if (event.data instanceof Blob) reader.readAsText(event.data);
-		else handleMessageRecieved(event.data);
+		if(event.data instanceof Blob)
+			reader.readAsText(event.data);
+		else 
+			handleMessageRecieved(event.data);
 	};
 
 	socket.onclose = function () {
@@ -80,18 +83,21 @@ function handleMessageSend() {
 function handleMessageRecieved(message) {
 	let username = extractUsername(message);
 	console.log(`Received message from ${username}:`, message);
-
+	
 	let chatNewThread = document.createElement("li"),
-		chatNewMessage = document.createTextNode(message);
-
+	chatNewMessage = document.createTextNode(message);
+	
 	// chatNewThread.classList.add(`${username}`);
-	if (username === "server") chatNewThread.classList.add(`server`);
-	else chatNewThread.classList.add(`other`);
+	if(username==="server")
+		chatNewThread.classList.add(`server`);
+	else
+		chatNewThread.classList.add(`other`);
 
 	// Add message to chat thread and scroll to bottom
 	chatNewThread.appendChild(chatNewMessage);
 	chatThread.appendChild(chatNewThread);
 	chatThread.scrollTop = chatThread.scrollHeight;
+
 }
 
 function handleSendChannelStateChange() {
@@ -105,6 +111,6 @@ function handleReceiveChannelStateChange() {
 }
 
 function extractUsername(string) {
-	const colonIndex = string.indexOf(":");
-	return string.substring(1, colonIndex - 1);
+	const colonIndex = string.indexOf(':');
+	return string.substring(1, colonIndex-1);
 }
