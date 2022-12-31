@@ -1,4 +1,4 @@
-const socket = new WebSocket("ws://https://websocket-chat-app-production.up.railway.app:8125");
+const socket = new WebSocket("wss://https://websocket-chat-app-production.up.railway.app:8125");
 
 let sendChannel,
 	receiveChannel,
